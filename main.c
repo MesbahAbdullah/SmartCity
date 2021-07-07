@@ -68,8 +68,8 @@ int main(void)
     while (1) 
     {
 	    /* DHT11 operating */	
-	  DHT11_VidStart();    
-	  _delay_ms(2000); //to call the DHT11_VidStart() again  
+	  //DHT11_VidStart();    
+	  //_delay_ms(2000); //to call the DHT11_VidStart() again  
 
 
 	  /* MQ-135 operating */
