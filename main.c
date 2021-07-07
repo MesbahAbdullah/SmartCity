@@ -58,13 +58,6 @@ int main(void)
 	UART_VidInt();	
 		 
     UART_VidSendString((u8*)"HI HOW ARE U ");
-	
-    _delay_ms(4000);
-	   
-    GPIO_VidSetPinDirection(GPIO_PORTC,PIN7,OUTPUT);
-	GPIO_VidSetPinValue(GPIO_PORTC,PIN7,HIGH);
-
-
     while (1) 
     {
 	    /* DHT11 operating */	
