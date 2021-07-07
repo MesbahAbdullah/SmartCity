@@ -14,7 +14,7 @@
 #include "DHT11_interface.h"
 //#include "ESP_interface.h"
 //#include "lcd.h"
-//#include "ADC_interface.h"
+#include "ADC_interface.h"
 #include <util/delay.h>//it has delay function
 #define GAS_PIN                   0
 #define TEMP_PIN                  1
@@ -69,5 +69,5 @@ int main(void)
 	  GAS_VidReadValue();
 	  _delay_ms(2000);
 	  
+ }
 }
-

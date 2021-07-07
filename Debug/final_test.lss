@@ -3,31 +3,29 @@ final_test.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000054e  00000000  00000000  00000094  2**1
+  0 .text         000001da  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         0000002e  00800060  0000054e  000005e2  2**0
+  1 .data         0000000e  00800060  000001da  0000024e  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000006  0080008e  0080008e  00000610  2**0
-                  ALLOC
-  3 .comment      00000030  00000000  00000000  00000610  2**0
+  2 .comment      00000030  00000000  00000000  0000025c  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000640  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000028c  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000000d0  00000000  00000000  0000067c  2**0
+  4 .debug_aranges 00000090  00000000  00000000  000002c8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000fb0  00000000  00000000  0000074c  2**0
+  5 .debug_info   0000099d  00000000  00000000  00000358  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000009b7  00000000  00000000  000016fc  2**0
+  6 .debug_abbrev 000007c7  00000000  00000000  00000cf5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000008a4  00000000  00000000  000020b3  2**0
+  7 .debug_line   000004ff  00000000  00000000  000014bc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000160  00000000  00000000  00002958  2**2
+  8 .debug_frame  000000fc  00000000  00000000  000019bc  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000510  00000000  00000000  00002ab8  2**0
+  9 .debug_str    00000453  00000000  00000000  00001ab8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000057c  00000000  00000000  00002fc8  2**0
+ 10 .debug_loc    00000185  00000000  00000000  00001f0b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000090  00000000  00000000  00003544  2**0
+ 11 .debug_ranges 00000060  00000000  00000000  00002090  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -67,18 +65,18 @@ Disassembly of section .text:
   60:	10 e0       	ldi	r17, 0x00	; 0
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
-  66:	ee e4       	ldi	r30, 0x4E	; 78
-  68:	f5 e0       	ldi	r31, 0x05	; 5
+  66:	ea ed       	ldi	r30, 0xDA	; 218
+  68:	f1 e0       	ldi	r31, 0x01	; 1
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
   6e:	0d 92       	st	X+, r0
-  70:	ae 38       	cpi	r26, 0x8E	; 142
+  70:	ae 36       	cpi	r26, 0x6E	; 110
   72:	b1 07       	cpc	r27, r17
   74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
 
 00000076 <__do_clear_bss>:
   76:	20 e0       	ldi	r18, 0x00	; 0
-  78:	ae e8       	ldi	r26, 0x8E	; 142
+  78:	ae e6       	ldi	r26, 0x6E	; 110
   7a:	b0 e0       	ldi	r27, 0x00	; 0
   7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
 
@@ -86,826 +84,268 @@ Disassembly of section .text:
   7e:	1d 92       	st	X+, r1
 
 00000080 <.do_clear_bss_start>:
-  80:	a4 39       	cpi	r26, 0x94	; 148
+  80:	ae 36       	cpi	r26, 0x6E	; 110
   82:	b2 07       	cpc	r27, r18
   84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
-  86:	0e 94 1f 02 	call	0x43e	; 0x43e <main>
-  8a:	0c 94 a5 02 	jmp	0x54a	; 0x54a <_exit>
+  86:	0e 94 78 00 	call	0xf0	; 0xf0 <main>
+  8a:	0c 94 eb 00 	jmp	0x1d6	; 0x1d6 <_exit>
 
 0000008e <__bad_interrupt>:
   8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-00000092 <Request>:
-//#include "lcd.h"
-uint8_t c=0,I_RH,D_RH,I_Temp,D_Temp,CheckSum;
-
-void Request()				/* Microcontroller send start pulse/request */
+00000092 <ADC_u16ReadChannel>:
+u16 ADC_u16ReadChannel(u8 channel_num)
 {
-	DDRD |= (1<<DHT11_PIN);
-  92:	81 b3       	in	r24, 0x11	; 17
-  94:	80 61       	ori	r24, 0x10	; 16
-  96:	81 bb       	out	0x11, r24	; 17
-	PORTD &= ~(1<<DHT11_PIN);	/* set to low pin */
-  98:	82 b3       	in	r24, 0x12	; 18
-  9a:	8f 7e       	andi	r24, 0xEF	; 239
-  9c:	82 bb       	out	0x12, r24	; 18
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
 
-	__builtin_avr_delay_cycles(__ticks_dc);
-  9e:	87 e8       	ldi	r24, 0x87	; 135
-  a0:	93 e1       	ldi	r25, 0x13	; 19
-  a2:	01 97       	sbiw	r24, 0x01	; 1
-  a4:	f1 f7       	brne	.-4      	; 0xa2 <Request+0x10>
-  a6:	00 c0       	rjmp	.+0      	; 0xa8 <Request+0x16>
-  a8:	00 00       	nop
-	_delay_ms(20);			/* wait for 20ms */
-	PORTD |= (1<<DHT11_PIN);	/* set to high pin */
-  aa:	82 b3       	in	r24, 0x12	; 18
-  ac:	80 61       	ori	r24, 0x10	; 16
-  ae:	82 bb       	out	0x12, r24	; 18
-  b0:	08 95       	ret
+	// select the corresponding channel 0~7
+	
+	channel_num &= 0b00000111;  // AND operation with 7
+  92:	87 70       	andi	r24, 0x07	; 7
+	ADMUX = (ADMUX & 0xF8)|channel_num;
+  94:	97 b1       	in	r25, 0x07	; 7
+  96:	98 7f       	andi	r25, 0xF8	; 248
+  98:	89 2b       	or	r24, r25
+  9a:	87 b9       	out	0x07, r24	; 7
 
-000000b2 <Response>:
+	// start single conversion
+	// write '1' to ADSC
+	ADCSRA |= (1<<ADSC);
+  9c:	86 b1       	in	r24, 0x06	; 6
+  9e:	80 64       	ori	r24, 0x40	; 64
+  a0:	86 b9       	out	0x06, r24	; 6
+
+	// wait for conversion to complete
+	// ADSC becomes '0' again
+	
+	while(ADCSRA & (1<<ADSC));
+  a2:	36 99       	sbic	0x06, 6	; 6
+  a4:	fe cf       	rjmp	.-4      	; 0xa2 <ADC_u16ReadChannel+0x10>
+
+	return (ADC);
+  a6:	84 b1       	in	r24, 0x04	; 4
+  a8:	95 b1       	in	r25, 0x05	; 5
 }
+  aa:	08 95       	ret
 
-void Response()				/* receive response from DHT11 */
+000000ac <GAS_VidReadValue>:
+
+// }
+// u8 *x;
+        /*This function is to read an analogue value from gas sensor MQ-135 and send the data using uart */
+void GAS_VidReadValue()
 {
-	DDRD &= ~(1<<DHT11_PIN);
-  b2:	81 b3       	in	r24, 0x11	; 17
-  b4:	8f 7e       	andi	r24, 0xEF	; 239
-  b6:	81 bb       	out	0x11, r24	; 17
-	while(PIND & (1<<DHT11_PIN));
-  b8:	84 99       	sbic	0x10, 4	; 16
-  ba:	fe cf       	rjmp	.-4      	; 0xb8 <Response+0x6>
-	while((PIND & (1<<DHT11_PIN))==0);
-  bc:	84 9b       	sbis	0x10, 4	; 16
-  be:	fe cf       	rjmp	.-4      	; 0xbc <Response+0xa>
-	while(PIND & (1<<DHT11_PIN));
-  c0:	84 99       	sbic	0x10, 4	; 16
-  c2:	fe cf       	rjmp	.-4      	; 0xc0 <Response+0xe>
+  ac:	cf 93       	push	r28
+  ae:	df 93       	push	r29
+  b0:	cd b7       	in	r28, 0x3d	; 61
+  b2:	de b7       	in	r29, 0x3e	; 62
+  b4:	2a 97       	sbiw	r28, 0x0a	; 10
+  b6:	0f b6       	in	r0, 0x3f	; 63
+  b8:	f8 94       	cli
+  ba:	de bf       	out	0x3e, r29	; 62
+  bc:	0f be       	out	0x3f, r0	; 63
+  be:	cd bf       	out	0x3d, r28	; 61
+   u16 adc_result0=0;
+   u8 tempBuffer[10];
+   adc_result0 = ADC_u16ReadChannel(GAS_PIN);
+  c0:	80 e0       	ldi	r24, 0x00	; 0
+  c2:	90 e0       	ldi	r25, 0x00	; 0
+  c4:	0e 94 49 00 	call	0x92	; 0x92 <ADC_u16ReadChannel>
+   itoa(adc_result0,tempBuffer,10);
+  c8:	4a e0       	ldi	r20, 0x0A	; 10
+  ca:	50 e0       	ldi	r21, 0x00	; 0
+  cc:	be 01       	movw	r22, r28
+  ce:	6f 5f       	subi	r22, 0xFF	; 255
+  d0:	7f 4f       	sbci	r23, 0xFF	; 255
+  d2:	0e 94 ab 00 	call	0x156	; 0x156 <itoa>
+   UART_VidSendString((u8*)tempBuffer);
+  d6:	ce 01       	movw	r24, r28
+  d8:	01 96       	adiw	r24, 0x01	; 1
+  da:	0e 94 98 00 	call	0x130	; 0x130 <UART_VidSendString>
 }
-  c4:	08 95       	ret
+  de:	2a 96       	adiw	r28, 0x0a	; 10
+  e0:	0f b6       	in	r0, 0x3f	; 63
+  e2:	f8 94       	cli
+  e4:	de bf       	out	0x3e, r29	; 62
+  e6:	0f be       	out	0x3f, r0	; 63
+  e8:	cd bf       	out	0x3d, r28	; 61
+  ea:	df 91       	pop	r29
+  ec:	cf 91       	pop	r28
+  ee:	08 95       	ret
 
-000000c6 <Receive_data>:
-
-uint8_t Receive_data()			/* receive data */
-{	
-	for (int q=0; q<8; q++)
-  c6:	20 e0       	ldi	r18, 0x00	; 0
-  c8:	30 e0       	ldi	r19, 0x00	; 0
-  ca:	19 c0       	rjmp	.+50     	; 0xfe <Receive_data+0x38>
-	{
-		while((PIND & (1<<DHT11_PIN)) == 0);  /* check received bit 0 or 1 */
-  cc:	84 9b       	sbis	0x10, 4	; 16
-  ce:	fe cf       	rjmp	.-4      	; 0xcc <Receive_data+0x6>
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
-
-	__builtin_avr_delay_cycles(__ticks_dc);
-  d0:	8a e0       	ldi	r24, 0x0A	; 10
-  d2:	8a 95       	dec	r24
-  d4:	f1 f7       	brne	.-4      	; 0xd2 <Receive_data+0xc>
-		_delay_us(30);
-		if(PIND & (1<<DHT11_PIN))/* if high pulse is greater than 30ms */
-  d6:	84 9b       	sbis	0x10, 4	; 16
-  d8:	09 c0       	rjmp	.+18     	; 0xec <Receive_data+0x26>
-		c = (c<<1)|(0x01);	/* then its logic HIGH */
-  da:	80 91 8e 00 	lds	r24, 0x008E	; 0x80008e <__data_end>
-  de:	90 e0       	ldi	r25, 0x00	; 0
-  e0:	88 0f       	add	r24, r24
-  e2:	99 1f       	adc	r25, r25
-  e4:	81 60       	ori	r24, 0x01	; 1
-  e6:	80 93 8e 00 	sts	0x008E, r24	; 0x80008e <__data_end>
-  ea:	05 c0       	rjmp	.+10     	; 0xf6 <Receive_data+0x30>
-		else			/* otherwise its logic LOW */
-		c = (c<<1);
-  ec:	80 91 8e 00 	lds	r24, 0x008E	; 0x80008e <__data_end>
-  f0:	88 0f       	add	r24, r24
-  f2:	80 93 8e 00 	sts	0x008E, r24	; 0x80008e <__data_end>
-		while(PIND & (1<<DHT11_PIN));
-  f6:	84 99       	sbic	0x10, 4	; 16
-  f8:	fe cf       	rjmp	.-4      	; 0xf6 <Receive_data+0x30>
-	while(PIND & (1<<DHT11_PIN));
-}
-
-uint8_t Receive_data()			/* receive data */
-{	
-	for (int q=0; q<8; q++)
-  fa:	2f 5f       	subi	r18, 0xFF	; 255
-  fc:	3f 4f       	sbci	r19, 0xFF	; 255
-  fe:	28 30       	cpi	r18, 0x08	; 8
- 100:	31 05       	cpc	r19, r1
- 102:	24 f3       	brlt	.-56     	; 0xcc <Receive_data+0x6>
-		else			/* otherwise its logic LOW */
-		c = (c<<1);
-		while(PIND & (1<<DHT11_PIN));
-	}
-	return c;
-}
- 104:	80 91 8e 00 	lds	r24, 0x008E	; 0x80008e <__data_end>
- 108:	08 95       	ret
-
-0000010a <DHT11_VidStart>:
-
-void DHT11_VidStart(void)
-{	
- 10a:	cf 93       	push	r28
- 10c:	df 93       	push	r29
- 10e:	00 d0       	rcall	.+0      	; 0x110 <DHT11_VidStart+0x6>
- 110:	00 d0       	rcall	.+0      	; 0x112 <DHT11_VidStart+0x8>
- 112:	1f 92       	push	r1
- 114:	cd b7       	in	r28, 0x3d	; 61
- 116:	de b7       	in	r29, 0x3e	; 62
-	char data[5];
-	//lcdinit();			/* Initialize LCD */
-	//lcd_clear();			/* Clear LCD */
-	//lcd_gotoxy(0,0);		/* Enter column and row position */
-	UART_VidSendString("Humidity =");
- 118:	80 e6       	ldi	r24, 0x60	; 96
- 11a:	90 e0       	ldi	r25, 0x00	; 0
- 11c:	0e 94 52 02 	call	0x4a4	; 0x4a4 <UART_VidSendString>
-	//lcd_gotoxy(0,1);
-	UART_VidSendString("Temp = ");
- 120:	8b e6       	ldi	r24, 0x6B	; 107
- 122:	90 e0       	ldi	r25, 0x00	; 0
- 124:	0e 94 52 02 	call	0x4a4	; 0x4a4 <UART_VidSendString>
-	
-    
-	
-		Request();		/* send start pulse */
- 128:	0e 94 49 00 	call	0x92	; 0x92 <Request>
-		Response();		/* receive response */
- 12c:	0e 94 59 00 	call	0xb2	; 0xb2 <Response>
-        GPIO_VidSetPinValue(GPIO_PORTC,PIN7,LOW);
- 130:	40 e0       	ldi	r20, 0x00	; 0
- 132:	67 e0       	ldi	r22, 0x07	; 7
- 134:	82 e0       	ldi	r24, 0x02	; 2
- 136:	0e 94 a8 01 	call	0x350	; 0x350 <GPIO_VidSetPinValue>
-
-		I_RH=Receive_data();	/* store first eight bit in I_RH */
- 13a:	0e 94 63 00 	call	0xc6	; 0xc6 <Receive_data>
- 13e:	80 93 92 00 	sts	0x0092, r24	; 0x800092 <I_RH>
-		D_RH=Receive_data();	/* store next eight bit in D_RH */
- 142:	0e 94 63 00 	call	0xc6	; 0xc6 <Receive_data>
- 146:	80 93 8f 00 	sts	0x008F, r24	; 0x80008f <D_RH>
-		I_Temp=Receive_data();	/* store next eight bit in I_Temp */
- 14a:	0e 94 63 00 	call	0xc6	; 0xc6 <Receive_data>
- 14e:	80 93 91 00 	sts	0x0091, r24	; 0x800091 <I_Temp>
-		D_Temp=Receive_data();	/* store next eight bit in D_Temp */
- 152:	0e 94 63 00 	call	0xc6	; 0xc6 <Receive_data>
- 156:	80 93 93 00 	sts	0x0093, r24	; 0x800093 <D_Temp>
-		CheckSum=Receive_data();/* store next eight bit in CheckSum */
- 15a:	0e 94 63 00 	call	0xc6	; 0xc6 <Receive_data>
- 15e:	80 93 90 00 	sts	0x0090, r24	; 0x800090 <CheckSum>
-
-		if ((I_RH + D_RH + I_Temp + D_Temp) != CheckSum)
- 162:	e0 91 92 00 	lds	r30, 0x0092	; 0x800092 <I_RH>
- 166:	f0 e0       	ldi	r31, 0x00	; 0
- 168:	90 91 8f 00 	lds	r25, 0x008F	; 0x80008f <D_RH>
- 16c:	9f 01       	movw	r18, r30
- 16e:	29 0f       	add	r18, r25
- 170:	31 1d       	adc	r19, r1
- 172:	90 91 91 00 	lds	r25, 0x0091	; 0x800091 <I_Temp>
- 176:	29 0f       	add	r18, r25
- 178:	31 1d       	adc	r19, r1
- 17a:	90 91 93 00 	lds	r25, 0x0093	; 0x800093 <D_Temp>
- 17e:	29 0f       	add	r18, r25
- 180:	31 1d       	adc	r19, r1
- 182:	48 2f       	mov	r20, r24
- 184:	50 e0       	ldi	r21, 0x00	; 0
- 186:	24 17       	cp	r18, r20
- 188:	35 07       	cpc	r19, r21
- 18a:	29 f0       	breq	.+10     	; 0x196 <DHT11_VidStart+0x8c>
-		{
-			//lcd_gotoxy(0,0);
-			UART_VidSendString("Error");
- 18c:	83 e7       	ldi	r24, 0x73	; 115
- 18e:	90 e0       	ldi	r25, 0x00	; 0
- 190:	0e 94 52 02 	call	0x4a4	; 0x4a4 <UART_VidSendString>
- 194:	58 c0       	rjmp	.+176    	; 0x246 <DHT11_VidStart+0x13c>
-		}
-		
-		else
-		{	
-			itoa(I_RH,data,10);
- 196:	4a e0       	ldi	r20, 0x0A	; 10
- 198:	50 e0       	ldi	r21, 0x00	; 0
- 19a:	be 01       	movw	r22, r28
- 19c:	6f 5f       	subi	r22, 0xFF	; 255
- 19e:	7f 4f       	sbci	r23, 0xFF	; 255
- 1a0:	cf 01       	movw	r24, r30
- 1a2:	0e 94 65 02 	call	0x4ca	; 0x4ca <itoa>
-			//lcd_gotoxy(11,0);
-			UART_VidSendString(data);
- 1a6:	ce 01       	movw	r24, r28
- 1a8:	01 96       	adiw	r24, 0x01	; 1
- 1aa:	0e 94 52 02 	call	0x4a4	; 0x4a4 <UART_VidSendString>
-			UART_VidSendString(".");
- 1ae:	89 e7       	ldi	r24, 0x79	; 121
- 1b0:	90 e0       	ldi	r25, 0x00	; 0
- 1b2:	0e 94 52 02 	call	0x4a4	; 0x4a4 <UART_VidSendString>
-			
-			itoa(D_RH,data,10);
- 1b6:	80 91 8f 00 	lds	r24, 0x008F	; 0x80008f <D_RH>
- 1ba:	4a e0       	ldi	r20, 0x0A	; 10
- 1bc:	50 e0       	ldi	r21, 0x00	; 0
- 1be:	be 01       	movw	r22, r28
- 1c0:	6f 5f       	subi	r22, 0xFF	; 255
- 1c2:	7f 4f       	sbci	r23, 0xFF	; 255
- 1c4:	90 e0       	ldi	r25, 0x00	; 0
- 1c6:	0e 94 65 02 	call	0x4ca	; 0x4ca <itoa>
-			UART_VidSendString(data);
- 1ca:	ce 01       	movw	r24, r28
- 1cc:	01 96       	adiw	r24, 0x01	; 1
- 1ce:	0e 94 52 02 	call	0x4a4	; 0x4a4 <UART_VidSendString>
-			UART_VidSendString("%");
- 1d2:	8b e7       	ldi	r24, 0x7B	; 123
- 1d4:	90 e0       	ldi	r25, 0x00	; 0
- 1d6:	0e 94 52 02 	call	0x4a4	; 0x4a4 <UART_VidSendString>
-
-			itoa(I_Temp,data,10);
- 1da:	80 91 91 00 	lds	r24, 0x0091	; 0x800091 <I_Temp>
- 1de:	4a e0       	ldi	r20, 0x0A	; 10
- 1e0:	50 e0       	ldi	r21, 0x00	; 0
- 1e2:	be 01       	movw	r22, r28
- 1e4:	6f 5f       	subi	r22, 0xFF	; 255
- 1e6:	7f 4f       	sbci	r23, 0xFF	; 255
- 1e8:	90 e0       	ldi	r25, 0x00	; 0
- 1ea:	0e 94 65 02 	call	0x4ca	; 0x4ca <itoa>
-			//lcd_gotoxy(6,1);
-			UART_VidSendString(data);
- 1ee:	ce 01       	movw	r24, r28
- 1f0:	01 96       	adiw	r24, 0x01	; 1
- 1f2:	0e 94 52 02 	call	0x4a4	; 0x4a4 <UART_VidSendString>
-			UART_VidSendString(".");
- 1f6:	89 e7       	ldi	r24, 0x79	; 121
- 1f8:	90 e0       	ldi	r25, 0x00	; 0
- 1fa:	0e 94 52 02 	call	0x4a4	; 0x4a4 <UART_VidSendString>
-			
-			itoa(D_Temp,data,10);
- 1fe:	80 91 93 00 	lds	r24, 0x0093	; 0x800093 <D_Temp>
- 202:	4a e0       	ldi	r20, 0x0A	; 10
- 204:	50 e0       	ldi	r21, 0x00	; 0
- 206:	be 01       	movw	r22, r28
- 208:	6f 5f       	subi	r22, 0xFF	; 255
- 20a:	7f 4f       	sbci	r23, 0xFF	; 255
- 20c:	90 e0       	ldi	r25, 0x00	; 0
- 20e:	0e 94 65 02 	call	0x4ca	; 0x4ca <itoa>
-			UART_VidSendString(data);
- 212:	ce 01       	movw	r24, r28
- 214:	01 96       	adiw	r24, 0x01	; 1
- 216:	0e 94 52 02 	call	0x4a4	; 0x4a4 <UART_VidSendString>
-			//lcddata(0xDF);
-			UART_VidSendString("C ");
- 21a:	8d e7       	ldi	r24, 0x7D	; 125
- 21c:	90 e0       	ldi	r25, 0x00	; 0
- 21e:	0e 94 52 02 	call	0x4a4	; 0x4a4 <UART_VidSendString>
-			
-			itoa(CheckSum,data,10);
- 222:	80 91 90 00 	lds	r24, 0x0090	; 0x800090 <CheckSum>
- 226:	4a e0       	ldi	r20, 0x0A	; 10
- 228:	50 e0       	ldi	r21, 0x00	; 0
- 22a:	be 01       	movw	r22, r28
- 22c:	6f 5f       	subi	r22, 0xFF	; 255
- 22e:	7f 4f       	sbci	r23, 0xFF	; 255
- 230:	90 e0       	ldi	r25, 0x00	; 0
- 232:	0e 94 65 02 	call	0x4ca	; 0x4ca <itoa>
-			UART_VidSendString(data);
- 236:	ce 01       	movw	r24, r28
- 238:	01 96       	adiw	r24, 0x01	; 1
- 23a:	0e 94 52 02 	call	0x4a4	; 0x4a4 <UART_VidSendString>
-			UART_VidSendString(" ");
- 23e:	81 e7       	ldi	r24, 0x71	; 113
- 240:	90 e0       	ldi	r25, 0x00	; 0
- 242:	0e 94 52 02 	call	0x4a4	; 0x4a4 <UART_VidSendString>
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
-
-	__builtin_avr_delay_cycles(__ticks_dc);
- 246:	83 ec       	ldi	r24, 0xC3	; 195
- 248:	99 e0       	ldi	r25, 0x09	; 9
- 24a:	01 97       	sbiw	r24, 0x01	; 1
- 24c:	f1 f7       	brne	.-4      	; 0x24a <DHT11_VidStart+0x140>
- 24e:	00 c0       	rjmp	.+0      	; 0x250 <DHT11_VidStart+0x146>
- 250:	00 00       	nop
-		}
-				
-	_delay_ms(10);
-	
- 252:	0f 90       	pop	r0
- 254:	0f 90       	pop	r0
- 256:	0f 90       	pop	r0
- 258:	0f 90       	pop	r0
- 25a:	0f 90       	pop	r0
- 25c:	df 91       	pop	r29
- 25e:	cf 91       	pop	r28
- 260:	08 95       	ret
-
-00000262 <GPIO_VidSetPinDirection>:
-#include "GPIO_private.h"
-
-
-void GPIO_VidSetPinDirection( u8 Copy_u8Port , u8 Copy_u8Pin , u8 Copy_u8DIR )
+000000f0 <main>:
+int main(void)
 {
-    switch(Copy_u8Port)
- 262:	81 30       	cpi	r24, 0x01	; 1
- 264:	19 f1       	breq	.+70     	; 0x2ac <GPIO_VidSetPinDirection+0x4a>
- 266:	30 f0       	brcs	.+12     	; 0x274 <GPIO_VidSetPinDirection+0x12>
- 268:	82 30       	cpi	r24, 0x02	; 2
- 26a:	e1 f1       	breq	.+120    	; 0x2e4 <GPIO_VidSetPinDirection+0x82>
- 26c:	83 30       	cpi	r24, 0x03	; 3
- 26e:	09 f4       	brne	.+2      	; 0x272 <GPIO_VidSetPinDirection+0x10>
- 270:	54 c0       	rjmp	.+168    	; 0x31a <GPIO_VidSetPinDirection+0xb8>
- 272:	08 95       	ret
-    {
-    case GPIO_PORTA :
-        if(Copy_u8DIR==INPUT)
- 274:	41 11       	cpse	r20, r1
- 276:	0c c0       	rjmp	.+24     	; 0x290 <GPIO_VidSetPinDirection+0x2e>
-             CLR_BIT(DDRA , Copy_u8Pin);
- 278:	2a b3       	in	r18, 0x1a	; 26
- 27a:	81 e0       	ldi	r24, 0x01	; 1
- 27c:	90 e0       	ldi	r25, 0x00	; 0
- 27e:	02 c0       	rjmp	.+4      	; 0x284 <GPIO_VidSetPinDirection+0x22>
- 280:	88 0f       	add	r24, r24
- 282:	99 1f       	adc	r25, r25
- 284:	6a 95       	dec	r22
- 286:	e2 f7       	brpl	.-8      	; 0x280 <GPIO_VidSetPinDirection+0x1e>
- 288:	80 95       	com	r24
- 28a:	82 23       	and	r24, r18
- 28c:	8a bb       	out	0x1a, r24	; 26
- 28e:	08 95       	ret
-        else if (Copy_u8DIR==OUTPUT)     
- 290:	41 30       	cpi	r20, 0x01	; 1
- 292:	09 f0       	breq	.+2      	; 0x296 <GPIO_VidSetPinDirection+0x34>
- 294:	5c c0       	rjmp	.+184    	; 0x34e <GPIO_VidSetPinDirection+0xec>
-            SET_BIT(DDRA,Copy_u8Pin);
- 296:	2a b3       	in	r18, 0x1a	; 26
- 298:	81 e0       	ldi	r24, 0x01	; 1
- 29a:	90 e0       	ldi	r25, 0x00	; 0
- 29c:	02 c0       	rjmp	.+4      	; 0x2a2 <GPIO_VidSetPinDirection+0x40>
- 29e:	88 0f       	add	r24, r24
- 2a0:	99 1f       	adc	r25, r25
- 2a2:	6a 95       	dec	r22
- 2a4:	e2 f7       	brpl	.-8      	; 0x29e <GPIO_VidSetPinDirection+0x3c>
- 2a6:	82 2b       	or	r24, r18
- 2a8:	8a bb       	out	0x1a, r24	; 26
- 2aa:	08 95       	ret
-        break;
-    case GPIO_PORTB :
-         if(Copy_u8DIR==INPUT)
- 2ac:	41 11       	cpse	r20, r1
- 2ae:	0c c0       	rjmp	.+24     	; 0x2c8 <GPIO_VidSetPinDirection+0x66>
-             CLR_BIT(DDRB , Copy_u8Pin);
- 2b0:	27 b3       	in	r18, 0x17	; 23
- 2b2:	81 e0       	ldi	r24, 0x01	; 1
- 2b4:	90 e0       	ldi	r25, 0x00	; 0
- 2b6:	02 c0       	rjmp	.+4      	; 0x2bc <GPIO_VidSetPinDirection+0x5a>
- 2b8:	88 0f       	add	r24, r24
- 2ba:	99 1f       	adc	r25, r25
- 2bc:	6a 95       	dec	r22
- 2be:	e2 f7       	brpl	.-8      	; 0x2b8 <GPIO_VidSetPinDirection+0x56>
- 2c0:	80 95       	com	r24
- 2c2:	82 23       	and	r24, r18
- 2c4:	87 bb       	out	0x17, r24	; 23
- 2c6:	08 95       	ret
-        else if (Copy_u8DIR==OUTPUT)     
- 2c8:	41 30       	cpi	r20, 0x01	; 1
- 2ca:	09 f0       	breq	.+2      	; 0x2ce <GPIO_VidSetPinDirection+0x6c>
- 2cc:	40 c0       	rjmp	.+128    	; 0x34e <GPIO_VidSetPinDirection+0xec>
-            SET_BIT(DDRB,Copy_u8Pin);
- 2ce:	27 b3       	in	r18, 0x17	; 23
- 2d0:	81 e0       	ldi	r24, 0x01	; 1
- 2d2:	90 e0       	ldi	r25, 0x00	; 0
- 2d4:	02 c0       	rjmp	.+4      	; 0x2da <GPIO_VidSetPinDirection+0x78>
- 2d6:	88 0f       	add	r24, r24
- 2d8:	99 1f       	adc	r25, r25
- 2da:	6a 95       	dec	r22
- 2dc:	e2 f7       	brpl	.-8      	; 0x2d6 <GPIO_VidSetPinDirection+0x74>
- 2de:	82 2b       	or	r24, r18
- 2e0:	87 bb       	out	0x17, r24	; 23
- 2e2:	08 95       	ret
-        break;
-    case GPIO_PORTC :
-         if(Copy_u8DIR==INPUT)
- 2e4:	41 11       	cpse	r20, r1
- 2e6:	0c c0       	rjmp	.+24     	; 0x300 <GPIO_VidSetPinDirection+0x9e>
-             CLR_BIT(DDRC , Copy_u8Pin);
- 2e8:	24 b3       	in	r18, 0x14	; 20
- 2ea:	81 e0       	ldi	r24, 0x01	; 1
- 2ec:	90 e0       	ldi	r25, 0x00	; 0
- 2ee:	02 c0       	rjmp	.+4      	; 0x2f4 <GPIO_VidSetPinDirection+0x92>
- 2f0:	88 0f       	add	r24, r24
- 2f2:	99 1f       	adc	r25, r25
- 2f4:	6a 95       	dec	r22
- 2f6:	e2 f7       	brpl	.-8      	; 0x2f0 <GPIO_VidSetPinDirection+0x8e>
- 2f8:	80 95       	com	r24
- 2fa:	82 23       	and	r24, r18
- 2fc:	84 bb       	out	0x14, r24	; 20
- 2fe:	08 95       	ret
-        else if (Copy_u8DIR==OUTPUT)     
- 300:	41 30       	cpi	r20, 0x01	; 1
- 302:	29 f5       	brne	.+74     	; 0x34e <GPIO_VidSetPinDirection+0xec>
-            SET_BIT(DDRC,Copy_u8Pin);
- 304:	24 b3       	in	r18, 0x14	; 20
- 306:	81 e0       	ldi	r24, 0x01	; 1
- 308:	90 e0       	ldi	r25, 0x00	; 0
- 30a:	02 c0       	rjmp	.+4      	; 0x310 <GPIO_VidSetPinDirection+0xae>
- 30c:	88 0f       	add	r24, r24
- 30e:	99 1f       	adc	r25, r25
- 310:	6a 95       	dec	r22
- 312:	e2 f7       	brpl	.-8      	; 0x30c <GPIO_VidSetPinDirection+0xaa>
- 314:	82 2b       	or	r24, r18
- 316:	84 bb       	out	0x14, r24	; 20
- 318:	08 95       	ret
-        break;
-    case GPIO_PORTD :
-         if(Copy_u8DIR==INPUT)
- 31a:	41 11       	cpse	r20, r1
- 31c:	0c c0       	rjmp	.+24     	; 0x336 <GPIO_VidSetPinDirection+0xd4>
-             CLR_BIT(DDRD , Copy_u8Pin);
- 31e:	21 b3       	in	r18, 0x11	; 17
- 320:	81 e0       	ldi	r24, 0x01	; 1
- 322:	90 e0       	ldi	r25, 0x00	; 0
- 324:	02 c0       	rjmp	.+4      	; 0x32a <GPIO_VidSetPinDirection+0xc8>
- 326:	88 0f       	add	r24, r24
- 328:	99 1f       	adc	r25, r25
- 32a:	6a 95       	dec	r22
- 32c:	e2 f7       	brpl	.-8      	; 0x326 <GPIO_VidSetPinDirection+0xc4>
- 32e:	80 95       	com	r24
- 330:	82 23       	and	r24, r18
- 332:	81 bb       	out	0x11, r24	; 17
- 334:	08 95       	ret
-        else if (Copy_u8DIR==OUTPUT)     
- 336:	41 30       	cpi	r20, 0x01	; 1
- 338:	51 f4       	brne	.+20     	; 0x34e <GPIO_VidSetPinDirection+0xec>
-            SET_BIT(DDRD,Copy_u8Pin);
- 33a:	21 b3       	in	r18, 0x11	; 17
- 33c:	81 e0       	ldi	r24, 0x01	; 1
- 33e:	90 e0       	ldi	r25, 0x00	; 0
- 340:	02 c0       	rjmp	.+4      	; 0x346 <GPIO_VidSetPinDirection+0xe4>
- 342:	88 0f       	add	r24, r24
- 344:	99 1f       	adc	r25, r25
- 346:	6a 95       	dec	r22
- 348:	e2 f7       	brpl	.-8      	; 0x342 <GPIO_VidSetPinDirection+0xe0>
- 34a:	82 2b       	or	r24, r18
- 34c:	81 bb       	out	0x11, r24	; 17
- 34e:	08 95       	ret
 
-00000350 <GPIO_VidSetPinValue>:
-
-}
-
-void GPIO_VidSetPinValue( u8 Copy_u8Port , u8 Copy_u8Pin , u8 Copy_u8Value )
-{
-    switch(Copy_u8Port)
- 350:	81 30       	cpi	r24, 0x01	; 1
- 352:	19 f1       	breq	.+70     	; 0x39a <GPIO_VidSetPinValue+0x4a>
- 354:	30 f0       	brcs	.+12     	; 0x362 <GPIO_VidSetPinValue+0x12>
- 356:	82 30       	cpi	r24, 0x02	; 2
- 358:	e1 f1       	breq	.+120    	; 0x3d2 <GPIO_VidSetPinValue+0x82>
- 35a:	83 30       	cpi	r24, 0x03	; 3
- 35c:	09 f4       	brne	.+2      	; 0x360 <GPIO_VidSetPinValue+0x10>
- 35e:	54 c0       	rjmp	.+168    	; 0x408 <__EEPROM_REGION_LENGTH__+0x8>
- 360:	08 95       	ret
-    {
-    case GPIO_PORTA :
-        if(Copy_u8Value==LOW)
- 362:	41 11       	cpse	r20, r1
- 364:	0c c0       	rjmp	.+24     	; 0x37e <GPIO_VidSetPinValue+0x2e>
-             CLR_BIT(PORTA , Copy_u8Pin);
- 366:	2b b3       	in	r18, 0x1b	; 27
- 368:	81 e0       	ldi	r24, 0x01	; 1
- 36a:	90 e0       	ldi	r25, 0x00	; 0
- 36c:	02 c0       	rjmp	.+4      	; 0x372 <GPIO_VidSetPinValue+0x22>
- 36e:	88 0f       	add	r24, r24
- 370:	99 1f       	adc	r25, r25
- 372:	6a 95       	dec	r22
- 374:	e2 f7       	brpl	.-8      	; 0x36e <GPIO_VidSetPinValue+0x1e>
- 376:	80 95       	com	r24
- 378:	82 23       	and	r24, r18
- 37a:	8b bb       	out	0x1b, r24	; 27
- 37c:	08 95       	ret
-        else if (Copy_u8Value==HIGH)     
- 37e:	41 30       	cpi	r20, 0x01	; 1
- 380:	09 f0       	breq	.+2      	; 0x384 <GPIO_VidSetPinValue+0x34>
- 382:	5c c0       	rjmp	.+184    	; 0x43c <__EEPROM_REGION_LENGTH__+0x3c>
-            SET_BIT(PORTA,Copy_u8Pin);
- 384:	2b b3       	in	r18, 0x1b	; 27
- 386:	81 e0       	ldi	r24, 0x01	; 1
- 388:	90 e0       	ldi	r25, 0x00	; 0
- 38a:	02 c0       	rjmp	.+4      	; 0x390 <GPIO_VidSetPinValue+0x40>
- 38c:	88 0f       	add	r24, r24
- 38e:	99 1f       	adc	r25, r25
- 390:	6a 95       	dec	r22
- 392:	e2 f7       	brpl	.-8      	; 0x38c <GPIO_VidSetPinValue+0x3c>
- 394:	82 2b       	or	r24, r18
- 396:	8b bb       	out	0x1b, r24	; 27
- 398:	08 95       	ret
-        break;
-    case GPIO_PORTB :
-         if(Copy_u8Value==LOW)
- 39a:	41 11       	cpse	r20, r1
- 39c:	0c c0       	rjmp	.+24     	; 0x3b6 <GPIO_VidSetPinValue+0x66>
-             CLR_BIT(PORTB , Copy_u8Pin);
- 39e:	28 b3       	in	r18, 0x18	; 24
- 3a0:	81 e0       	ldi	r24, 0x01	; 1
- 3a2:	90 e0       	ldi	r25, 0x00	; 0
- 3a4:	02 c0       	rjmp	.+4      	; 0x3aa <GPIO_VidSetPinValue+0x5a>
- 3a6:	88 0f       	add	r24, r24
- 3a8:	99 1f       	adc	r25, r25
- 3aa:	6a 95       	dec	r22
- 3ac:	e2 f7       	brpl	.-8      	; 0x3a6 <GPIO_VidSetPinValue+0x56>
- 3ae:	80 95       	com	r24
- 3b0:	82 23       	and	r24, r18
- 3b2:	88 bb       	out	0x18, r24	; 24
- 3b4:	08 95       	ret
-        else if (Copy_u8Value==HIGH)     
- 3b6:	41 30       	cpi	r20, 0x01	; 1
- 3b8:	09 f0       	breq	.+2      	; 0x3bc <GPIO_VidSetPinValue+0x6c>
- 3ba:	40 c0       	rjmp	.+128    	; 0x43c <__EEPROM_REGION_LENGTH__+0x3c>
-            SET_BIT(PORTB,Copy_u8Pin);
- 3bc:	28 b3       	in	r18, 0x18	; 24
- 3be:	81 e0       	ldi	r24, 0x01	; 1
- 3c0:	90 e0       	ldi	r25, 0x00	; 0
- 3c2:	02 c0       	rjmp	.+4      	; 0x3c8 <GPIO_VidSetPinValue+0x78>
- 3c4:	88 0f       	add	r24, r24
- 3c6:	99 1f       	adc	r25, r25
- 3c8:	6a 95       	dec	r22
- 3ca:	e2 f7       	brpl	.-8      	; 0x3c4 <GPIO_VidSetPinValue+0x74>
- 3cc:	82 2b       	or	r24, r18
- 3ce:	88 bb       	out	0x18, r24	; 24
- 3d0:	08 95       	ret
-        break;
-    case GPIO_PORTC :
-         if(Copy_u8Value==LOW)
- 3d2:	41 11       	cpse	r20, r1
- 3d4:	0c c0       	rjmp	.+24     	; 0x3ee <GPIO_VidSetPinValue+0x9e>
-             CLR_BIT(PORTC , Copy_u8Pin);
- 3d6:	25 b3       	in	r18, 0x15	; 21
- 3d8:	81 e0       	ldi	r24, 0x01	; 1
- 3da:	90 e0       	ldi	r25, 0x00	; 0
- 3dc:	02 c0       	rjmp	.+4      	; 0x3e2 <GPIO_VidSetPinValue+0x92>
- 3de:	88 0f       	add	r24, r24
- 3e0:	99 1f       	adc	r25, r25
- 3e2:	6a 95       	dec	r22
- 3e4:	e2 f7       	brpl	.-8      	; 0x3de <GPIO_VidSetPinValue+0x8e>
- 3e6:	80 95       	com	r24
- 3e8:	82 23       	and	r24, r18
- 3ea:	85 bb       	out	0x15, r24	; 21
- 3ec:	08 95       	ret
-        else if (Copy_u8Value==HIGH)     
- 3ee:	41 30       	cpi	r20, 0x01	; 1
- 3f0:	29 f5       	brne	.+74     	; 0x43c <__EEPROM_REGION_LENGTH__+0x3c>
-            SET_BIT(PORTC,Copy_u8Pin);
- 3f2:	25 b3       	in	r18, 0x15	; 21
- 3f4:	81 e0       	ldi	r24, 0x01	; 1
- 3f6:	90 e0       	ldi	r25, 0x00	; 0
- 3f8:	02 c0       	rjmp	.+4      	; 0x3fe <GPIO_VidSetPinValue+0xae>
- 3fa:	88 0f       	add	r24, r24
- 3fc:	99 1f       	adc	r25, r25
- 3fe:	6a 95       	dec	r22
- 400:	e2 f7       	brpl	.-8      	; 0x3fa <GPIO_VidSetPinValue+0xaa>
- 402:	82 2b       	or	r24, r18
- 404:	85 bb       	out	0x15, r24	; 21
- 406:	08 95       	ret
-        break;
-    case GPIO_PORTD :
-         if(Copy_u8Value==LOW)
- 408:	41 11       	cpse	r20, r1
- 40a:	0c c0       	rjmp	.+24     	; 0x424 <__EEPROM_REGION_LENGTH__+0x24>
-             CLR_BIT(PORTD , Copy_u8Pin);
- 40c:	22 b3       	in	r18, 0x12	; 18
- 40e:	81 e0       	ldi	r24, 0x01	; 1
- 410:	90 e0       	ldi	r25, 0x00	; 0
- 412:	02 c0       	rjmp	.+4      	; 0x418 <__EEPROM_REGION_LENGTH__+0x18>
- 414:	88 0f       	add	r24, r24
- 416:	99 1f       	adc	r25, r25
- 418:	6a 95       	dec	r22
- 41a:	e2 f7       	brpl	.-8      	; 0x414 <__EEPROM_REGION_LENGTH__+0x14>
- 41c:	80 95       	com	r24
- 41e:	82 23       	and	r24, r18
- 420:	82 bb       	out	0x12, r24	; 18
- 422:	08 95       	ret
-        else if (Copy_u8Value==HIGH)     
- 424:	41 30       	cpi	r20, 0x01	; 1
- 426:	51 f4       	brne	.+20     	; 0x43c <__EEPROM_REGION_LENGTH__+0x3c>
-            SET_BIT(PORTD,Copy_u8Pin);
- 428:	22 b3       	in	r18, 0x12	; 18
- 42a:	81 e0       	ldi	r24, 0x01	; 1
- 42c:	90 e0       	ldi	r25, 0x00	; 0
- 42e:	02 c0       	rjmp	.+4      	; 0x434 <__EEPROM_REGION_LENGTH__+0x34>
- 430:	88 0f       	add	r24, r24
- 432:	99 1f       	adc	r25, r25
- 434:	6a 95       	dec	r22
- 436:	e2 f7       	brpl	.-8      	; 0x430 <__EEPROM_REGION_LENGTH__+0x30>
- 438:	82 2b       	or	r24, r18
- 43a:	82 bb       	out	0x12, r24	; 18
- 43c:	08 95       	ret
-
-0000043e <main>:
-
-	//lcd_init(LCD_DISP_ON_CURSOR); //CURSOR
-	// LCD_GOTO(0,0);
-	// LCD_WRITESTRING((u8 *)"LCD Initialized");
-	// _delay_ms(1000);
-	UART_VidInt();
- 43e:	0e 94 44 02 	call	0x488	; 0x488 <UART_VidInt>
 	
-	// _delay_ms(1000);
-    //lcd_init(LCD_DISP_ON_CURSOR); //CURSOR
-	
+	UART_VidInt();	
+  f0:	0e 94 8a 00 	call	0x114	; 0x114 <UART_VidInt>
 		 
     UART_VidSendString((u8*)"HI HOW ARE U ");
- 442:	80 e8       	ldi	r24, 0x80	; 128
- 444:	90 e0       	ldi	r25, 0x00	; 0
- 446:	0e 94 52 02 	call	0x4a4	; 0x4a4 <UART_VidSendString>
- 44a:	2f ef       	ldi	r18, 0xFF	; 255
- 44c:	8f e4       	ldi	r24, 0x4F	; 79
- 44e:	93 ec       	ldi	r25, 0xC3	; 195
- 450:	21 50       	subi	r18, 0x01	; 1
- 452:	80 40       	sbci	r24, 0x00	; 0
- 454:	90 40       	sbci	r25, 0x00	; 0
- 456:	e1 f7       	brne	.-8      	; 0x450 <main+0x12>
- 458:	00 c0       	rjmp	.+0      	; 0x45a <main+0x1c>
- 45a:	00 00       	nop
-	//LCD_WRITESTRING((u8 *)"WIFI Connected");
+  f4:	80 e6       	ldi	r24, 0x60	; 96
+  f6:	90 e0       	ldi	r25, 0x00	; 0
+  f8:	0e 94 98 00 	call	0x130	; 0x130 <UART_VidSendString>
+	  //DHT11_VidStart();    
+	  //_delay_ms(2000); //to call the DHT11_VidStart() again  
 
 
+	  /* MQ-135 operating */
+	  GAS_VidReadValue();
+  fc:	0e 94 56 00 	call	0xac	; 0xac <GAS_VidReadValue>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
 
-   
-    GPIO_VidSetPinDirection(GPIO_PORTC,PIN7,OUTPUT);
- 45c:	41 e0       	ldi	r20, 0x01	; 1
- 45e:	67 e0       	ldi	r22, 0x07	; 7
- 460:	82 e0       	ldi	r24, 0x02	; 2
- 462:	0e 94 31 01 	call	0x262	; 0x262 <GPIO_VidSetPinDirection>
-	GPIO_VidSetPinValue(GPIO_PORTC,PIN7,HIGH);
- 466:	41 e0       	ldi	r20, 0x01	; 1
- 468:	67 e0       	ldi	r22, 0x07	; 7
- 46a:	82 e0       	ldi	r24, 0x02	; 2
- 46c:	0e 94 a8 01 	call	0x350	; 0x350 <GPIO_VidSetPinValue>
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 100:	2f ef       	ldi	r18, 0xFF	; 255
+ 102:	87 ea       	ldi	r24, 0xA7	; 167
+ 104:	91 e6       	ldi	r25, 0x61	; 97
+ 106:	21 50       	subi	r18, 0x01	; 1
+ 108:	80 40       	sbci	r24, 0x00	; 0
+ 10a:	90 40       	sbci	r25, 0x00	; 0
+ 10c:	e1 f7       	brne	.-8      	; 0x106 <main+0x16>
+ 10e:	00 c0       	rjmp	.+0      	; 0x110 <main+0x20>
+ 110:	00 00       	nop
+ 112:	f4 cf       	rjmp	.-24     	; 0xfc <main+0xc>
 
-
-    while (1) 
-    {
-	  DHT11_VidStart();
- 470:	0e 94 85 00 	call	0x10a	; 0x10a <DHT11_VidStart>
- 474:	2f ef       	ldi	r18, 0xFF	; 255
- 476:	87 ea       	ldi	r24, 0xA7	; 167
- 478:	91 e6       	ldi	r25, 0x61	; 97
- 47a:	21 50       	subi	r18, 0x01	; 1
- 47c:	80 40       	sbci	r24, 0x00	; 0
- 47e:	90 40       	sbci	r25, 0x00	; 0
- 480:	e1 f7       	brne	.-8      	; 0x47a <main+0x3c>
- 482:	00 c0       	rjmp	.+0      	; 0x484 <main+0x46>
- 484:	00 00       	nop
- 486:	f4 cf       	rjmp	.-24     	; 0x470 <main+0x32>
-
-00000488 <UART_VidInt>:
+00000114 <UART_VidInt>:
 {
     /* Wait for data to be received */
     while(GET_BIT(UART_UCSRA , 7) == 0);
     /* Get and return received data from buffer */
     return UDR;
 }
- 488:	82 e0       	ldi	r24, 0x02	; 2
- 48a:	8b b9       	out	0x0b, r24	; 11
- 48c:	88 e1       	ldi	r24, 0x18	; 24
- 48e:	8a b9       	out	0x0a, r24	; 10
- 490:	86 e8       	ldi	r24, 0x86	; 134
- 492:	80 bd       	out	0x20, r24	; 32
- 494:	10 bc       	out	0x20, r1	; 32
- 496:	80 e1       	ldi	r24, 0x10	; 16
- 498:	89 b9       	out	0x09, r24	; 9
- 49a:	08 95       	ret
+ 114:	82 e0       	ldi	r24, 0x02	; 2
+ 116:	8b b9       	out	0x0b, r24	; 11
+ 118:	88 e1       	ldi	r24, 0x18	; 24
+ 11a:	8a b9       	out	0x0a, r24	; 10
+ 11c:	86 e8       	ldi	r24, 0x86	; 134
+ 11e:	80 bd       	out	0x20, r24	; 32
+ 120:	10 bc       	out	0x20, r1	; 32
+ 122:	80 e1       	ldi	r24, 0x10	; 16
+ 124:	89 b9       	out	0x09, r24	; 9
+ 126:	08 95       	ret
 
-0000049c <UART_VidSentByte>:
- 49c:	5d 9b       	sbis	0x0b, 5	; 11
- 49e:	fe cf       	rjmp	.-4      	; 0x49c <UART_VidSentByte>
- 4a0:	8c b9       	out	0x0c, r24	; 12
- 4a2:	08 95       	ret
+00000128 <UART_VidSentByte>:
+ 128:	5d 9b       	sbis	0x0b, 5	; 11
+ 12a:	fe cf       	rjmp	.-4      	; 0x128 <UART_VidSentByte>
+ 12c:	8c b9       	out	0x0c, r24	; 12
+ 12e:	08 95       	ret
 
-000004a4 <UART_VidSendString>:
+00000130 <UART_VidSendString>:
 
 void UART_VidSendString( u8 * Copy_ptrString ){
- 4a4:	0f 93       	push	r16
- 4a6:	1f 93       	push	r17
- 4a8:	cf 93       	push	r28
- 4aa:	8c 01       	movw	r16, r24
+ 130:	0f 93       	push	r16
+ 132:	1f 93       	push	r17
+ 134:	cf 93       	push	r28
+ 136:	8c 01       	movw	r16, r24
 
 	u8 LOC_u8Iterator = 0 ;
- 4ac:	c0 e0       	ldi	r28, 0x00	; 0
+ 138:	c0 e0       	ldi	r28, 0x00	; 0
 
 	while ( Copy_ptrString[ LOC_u8Iterator ] != '\0' ){
- 4ae:	03 c0       	rjmp	.+6      	; 0x4b6 <UART_VidSendString+0x12>
+ 13a:	03 c0       	rjmp	.+6      	; 0x142 <UART_VidSendString+0x12>
 
 		UART_VidSentByte( Copy_ptrString[ LOC_u8Iterator ] );
- 4b0:	0e 94 4e 02 	call	0x49c	; 0x49c <UART_VidSentByte>
+ 13c:	0e 94 94 00 	call	0x128	; 0x128 <UART_VidSentByte>
 		LOC_u8Iterator++ ;
- 4b4:	cf 5f       	subi	r28, 0xFF	; 255
+ 140:	cf 5f       	subi	r28, 0xFF	; 255
 
 void UART_VidSendString( u8 * Copy_ptrString ){
 
 	u8 LOC_u8Iterator = 0 ;
 
 	while ( Copy_ptrString[ LOC_u8Iterator ] != '\0' ){
- 4b6:	f8 01       	movw	r30, r16
- 4b8:	ec 0f       	add	r30, r28
- 4ba:	f1 1d       	adc	r31, r1
- 4bc:	80 81       	ld	r24, Z
- 4be:	81 11       	cpse	r24, r1
- 4c0:	f7 cf       	rjmp	.-18     	; 0x4b0 <UART_VidSendString+0xc>
+ 142:	f8 01       	movw	r30, r16
+ 144:	ec 0f       	add	r30, r28
+ 146:	f1 1d       	adc	r31, r1
+ 148:	80 81       	ld	r24, Z
+ 14a:	81 11       	cpse	r24, r1
+ 14c:	f7 cf       	rjmp	.-18     	; 0x13c <UART_VidSendString+0xc>
 		UART_VidSentByte( Copy_ptrString[ LOC_u8Iterator ] );
 		LOC_u8Iterator++ ;
 
 	}
 
 }
- 4c2:	cf 91       	pop	r28
- 4c4:	1f 91       	pop	r17
- 4c6:	0f 91       	pop	r16
- 4c8:	08 95       	ret
+ 14e:	cf 91       	pop	r28
+ 150:	1f 91       	pop	r17
+ 152:	0f 91       	pop	r16
+ 154:	08 95       	ret
 
-000004ca <itoa>:
- 4ca:	45 32       	cpi	r20, 0x25	; 37
- 4cc:	51 05       	cpc	r21, r1
- 4ce:	20 f4       	brcc	.+8      	; 0x4d8 <itoa+0xe>
- 4d0:	42 30       	cpi	r20, 0x02	; 2
- 4d2:	10 f0       	brcs	.+4      	; 0x4d8 <itoa+0xe>
- 4d4:	0c 94 70 02 	jmp	0x4e0	; 0x4e0 <__itoa_ncheck>
- 4d8:	fb 01       	movw	r30, r22
- 4da:	10 82       	st	Z, r1
- 4dc:	cb 01       	movw	r24, r22
- 4de:	08 95       	ret
+00000156 <itoa>:
+ 156:	45 32       	cpi	r20, 0x25	; 37
+ 158:	51 05       	cpc	r21, r1
+ 15a:	20 f4       	brcc	.+8      	; 0x164 <itoa+0xe>
+ 15c:	42 30       	cpi	r20, 0x02	; 2
+ 15e:	10 f0       	brcs	.+4      	; 0x164 <itoa+0xe>
+ 160:	0c 94 b6 00 	jmp	0x16c	; 0x16c <__itoa_ncheck>
+ 164:	fb 01       	movw	r30, r22
+ 166:	10 82       	st	Z, r1
+ 168:	cb 01       	movw	r24, r22
+ 16a:	08 95       	ret
 
-000004e0 <__itoa_ncheck>:
- 4e0:	bb 27       	eor	r27, r27
- 4e2:	4a 30       	cpi	r20, 0x0A	; 10
- 4e4:	31 f4       	brne	.+12     	; 0x4f2 <__itoa_ncheck+0x12>
- 4e6:	99 23       	and	r25, r25
- 4e8:	22 f4       	brpl	.+8      	; 0x4f2 <__itoa_ncheck+0x12>
- 4ea:	bd e2       	ldi	r27, 0x2D	; 45
- 4ec:	90 95       	com	r25
- 4ee:	81 95       	neg	r24
- 4f0:	9f 4f       	sbci	r25, 0xFF	; 255
- 4f2:	0c 94 7c 02 	jmp	0x4f8	; 0x4f8 <__utoa_common>
+0000016c <__itoa_ncheck>:
+ 16c:	bb 27       	eor	r27, r27
+ 16e:	4a 30       	cpi	r20, 0x0A	; 10
+ 170:	31 f4       	brne	.+12     	; 0x17e <__itoa_ncheck+0x12>
+ 172:	99 23       	and	r25, r25
+ 174:	22 f4       	brpl	.+8      	; 0x17e <__itoa_ncheck+0x12>
+ 176:	bd e2       	ldi	r27, 0x2D	; 45
+ 178:	90 95       	com	r25
+ 17a:	81 95       	neg	r24
+ 17c:	9f 4f       	sbci	r25, 0xFF	; 255
+ 17e:	0c 94 c2 00 	jmp	0x184	; 0x184 <__utoa_common>
 
-000004f6 <__utoa_ncheck>:
- 4f6:	bb 27       	eor	r27, r27
+00000182 <__utoa_ncheck>:
+ 182:	bb 27       	eor	r27, r27
 
-000004f8 <__utoa_common>:
- 4f8:	fb 01       	movw	r30, r22
- 4fa:	55 27       	eor	r21, r21
- 4fc:	aa 27       	eor	r26, r26
- 4fe:	88 0f       	add	r24, r24
- 500:	99 1f       	adc	r25, r25
- 502:	aa 1f       	adc	r26, r26
- 504:	a4 17       	cp	r26, r20
- 506:	10 f0       	brcs	.+4      	; 0x50c <__utoa_common+0x14>
- 508:	a4 1b       	sub	r26, r20
- 50a:	83 95       	inc	r24
- 50c:	50 51       	subi	r21, 0x10	; 16
- 50e:	b9 f7       	brne	.-18     	; 0x4fe <__utoa_common+0x6>
- 510:	a0 5d       	subi	r26, 0xD0	; 208
- 512:	aa 33       	cpi	r26, 0x3A	; 58
- 514:	08 f0       	brcs	.+2      	; 0x518 <__utoa_common+0x20>
- 516:	a9 5d       	subi	r26, 0xD9	; 217
- 518:	a1 93       	st	Z+, r26
- 51a:	00 97       	sbiw	r24, 0x00	; 0
- 51c:	79 f7       	brne	.-34     	; 0x4fc <__utoa_common+0x4>
- 51e:	b1 11       	cpse	r27, r1
- 520:	b1 93       	st	Z+, r27
- 522:	11 92       	st	Z+, r1
- 524:	cb 01       	movw	r24, r22
- 526:	0c 94 95 02 	jmp	0x52a	; 0x52a <strrev>
+00000184 <__utoa_common>:
+ 184:	fb 01       	movw	r30, r22
+ 186:	55 27       	eor	r21, r21
+ 188:	aa 27       	eor	r26, r26
+ 18a:	88 0f       	add	r24, r24
+ 18c:	99 1f       	adc	r25, r25
+ 18e:	aa 1f       	adc	r26, r26
+ 190:	a4 17       	cp	r26, r20
+ 192:	10 f0       	brcs	.+4      	; 0x198 <__utoa_common+0x14>
+ 194:	a4 1b       	sub	r26, r20
+ 196:	83 95       	inc	r24
+ 198:	50 51       	subi	r21, 0x10	; 16
+ 19a:	b9 f7       	brne	.-18     	; 0x18a <__utoa_common+0x6>
+ 19c:	a0 5d       	subi	r26, 0xD0	; 208
+ 19e:	aa 33       	cpi	r26, 0x3A	; 58
+ 1a0:	08 f0       	brcs	.+2      	; 0x1a4 <__utoa_common+0x20>
+ 1a2:	a9 5d       	subi	r26, 0xD9	; 217
+ 1a4:	a1 93       	st	Z+, r26
+ 1a6:	00 97       	sbiw	r24, 0x00	; 0
+ 1a8:	79 f7       	brne	.-34     	; 0x188 <__utoa_common+0x4>
+ 1aa:	b1 11       	cpse	r27, r1
+ 1ac:	b1 93       	st	Z+, r27
+ 1ae:	11 92       	st	Z+, r1
+ 1b0:	cb 01       	movw	r24, r22
+ 1b2:	0c 94 db 00 	jmp	0x1b6	; 0x1b6 <strrev>
 
-0000052a <strrev>:
- 52a:	dc 01       	movw	r26, r24
- 52c:	fc 01       	movw	r30, r24
- 52e:	67 2f       	mov	r22, r23
- 530:	71 91       	ld	r23, Z+
- 532:	77 23       	and	r23, r23
- 534:	e1 f7       	brne	.-8      	; 0x52e <strrev+0x4>
- 536:	32 97       	sbiw	r30, 0x02	; 2
- 538:	04 c0       	rjmp	.+8      	; 0x542 <strrev+0x18>
- 53a:	7c 91       	ld	r23, X
- 53c:	6d 93       	st	X+, r22
- 53e:	70 83       	st	Z, r23
- 540:	62 91       	ld	r22, -Z
- 542:	ae 17       	cp	r26, r30
- 544:	bf 07       	cpc	r27, r31
- 546:	c8 f3       	brcs	.-14     	; 0x53a <strrev+0x10>
- 548:	08 95       	ret
+000001b6 <strrev>:
+ 1b6:	dc 01       	movw	r26, r24
+ 1b8:	fc 01       	movw	r30, r24
+ 1ba:	67 2f       	mov	r22, r23
+ 1bc:	71 91       	ld	r23, Z+
+ 1be:	77 23       	and	r23, r23
+ 1c0:	e1 f7       	brne	.-8      	; 0x1ba <strrev+0x4>
+ 1c2:	32 97       	sbiw	r30, 0x02	; 2
+ 1c4:	04 c0       	rjmp	.+8      	; 0x1ce <strrev+0x18>
+ 1c6:	7c 91       	ld	r23, X
+ 1c8:	6d 93       	st	X+, r22
+ 1ca:	70 83       	st	Z, r23
+ 1cc:	62 91       	ld	r22, -Z
+ 1ce:	ae 17       	cp	r26, r30
+ 1d0:	bf 07       	cpc	r27, r31
+ 1d2:	c8 f3       	brcs	.-14     	; 0x1c6 <strrev+0x10>
+ 1d4:	08 95       	ret
 
-0000054a <_exit>:
- 54a:	f8 94       	cli
+000001d6 <_exit>:
+ 1d6:	f8 94       	cli
 
-0000054c <__stop_program>:
- 54c:	ff cf       	rjmp	.-2      	; 0x54c <__stop_program>
+000001d8 <__stop_program>:
+ 1d8:	ff cf       	rjmp	.-2      	; 0x1d8 <__stop_program>
