@@ -13,35 +13,33 @@
 #include "UART_interface.h"
 #include "DHT11_interface.h"
 //#include "ESP_interface.h"
-//#include "lcd.h"
+#include "lcd.h"
 #include "ADC_interface.h"
 #include <util/delay.h>//it has delay function
-#define GAS_PIN                   0
+#define GAS_PIN                   2
 #define TEMP_PIN                  1
 
 
 /*This function is to read an analogue value from temp sensor lm-35 and send the data using uart */
-// void TEMP_VidReadValue()
-// {
-	// u16 adc_result1;
-    // s16 temp;
-    // s16 far;
-    // u8 buffer[10];
+void TEMP_VidReadValue()
+{
+	u16 adc_result1;
+    s16 temp;
+    s16 far;
+    u8 buffer[10];
 
 
-// 		adc_result1 = ADC_u16ReadChannel(TEMP_PIN);      // read adc value 
+		adc_result1 = ADC_u16ReadChannel(TEMP_PIN);      // read adc value 
 		
-// 		temp=adc_result0/2.01;   // finding the temperature
-// 		lcd_gotoxy(0,0);
-// 		itoa(temp,buffer,10);
-// 		lcd_puts("Temp=");   //display temperature
-// 		lcd_puts(buffer);
-// 		lcd_gotoxy(7,0);
-// 		lcd_puts("C"); 		
-// 		_delay_ms(1000);
-
-// }
+		temp=adc_result1/2.01;   // finding the temperature
+		itoa(temp,buffer,10);
+		UART_VidSendString((u8*)"Temp=");   //display temperature
+		UART_VidSendString(buffer);
+		UART_VidSendString((u8*)"C"); 		
+		_delay_ms(1000);
+}
 // u8 *x;
+
         /*This function is to read an analogue value from gas sensor MQ-135 and send the data using uart */
 void GAS_VidReadValue()
 {
@@ -66,8 +64,11 @@ int main(void)
 
 
 	  /* MQ-135 operating */
-	  GAS_VidReadValue();
-	  _delay_ms(2000);
+	  //GAS_VidReadValue();
+	 // _delay_ms(2000);
+
+	 TEMP_VidReadValue();
+	_delay_ms(2000);
 	  
  }
 }
