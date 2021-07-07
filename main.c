@@ -16,17 +16,19 @@
 //#include "lcd.h"
 //#include "ADC_interface.h"
 #include <util/delay.h>//it has delay function
-
-#define GAS_PIN                  1
+#define GAS_PIN                   0
+#define TEMP_PIN                  1
 u16 adc_result0;
 s16 temp;
 s16 far;
 u8 buffer[10];
-// void GAS_VidReadValue(u8 adc_pin)
+
+/*This function is to read an analogue value from temp sensor lm-35 and send the data using uart */
+// void TEMP_VidReadValue()
 // {
 
 
-// 		adc_result0 = ADC_u16ReadChannel(adc_pin);      // read adc value at PA0
+// 		adc_result0 = ADC_u16ReadChannel(TEMP_PIN);      // read adc value 
 		
 // 		temp=adc_result0/2.01;   // finding the temperature
 // 		lcd_gotoxy(0,0);
@@ -39,7 +41,13 @@ u8 buffer[10];
 
 // }
 // u8 *x;
-
+        /*This function is to read an analogue value from gas sensor MQ-135 and send the data using uart */
+void GAS_VidReadValue()
+{
+   u16 adc_result1=0;
+   s16 temp=0;
+   adc_result0 = ADC_u16ReadChannel(GAS_PIN);
+}
 int main(void)
 {
 
@@ -69,7 +77,7 @@ int main(void)
 	// LCD_WRITESTRING((u8 *)"ESP Initialized");
 	// _delay_ms(2000);
 
-    _delay_ms(1000);
+    _delay_ms(4000);
 	//ESP8266_VidConnectToWiFi((u8 *)"Not-For-U" , (u8 *)"1qaz2wsx3edc!@#");
 	//LCD_GOTO(1,0);
 	//LCD_WRITESTRING((u8 *)"WIFI Connected");
@@ -84,7 +92,7 @@ int main(void)
     while (1) 
     {
 	  DHT11_VidStart();
-      //GAS_VidReadValue(GAS_PIN) ;
+      //TEMP_VidReadValue_VidReadValue() ;
 	//   UART_VidSendString((u8*)"HI HOW ARE U \n");
 	//   UART_VidSendString((u8*)"\n");      
 	//   UART_VidSendString((u8*)"temp is  ");
