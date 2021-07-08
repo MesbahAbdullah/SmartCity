@@ -13,7 +13,7 @@
 #include "UART_interface.h"
 #include "DHT11_interface.h"
 //#include "ESP_interface.h"
-#include "lcd.h"
+//#include "lcd.h"
 #include "ADC_interface.h"
 #include <util/delay.h>//it has delay function
 #define GAS_PIN                   2
@@ -31,11 +31,12 @@ void TEMP_VidReadValue()
 
 		adc_result1 = ADC_u16ReadChannel(TEMP_PIN);      // read adc value 
 		
-		temp=adc_result1/2.01;   // finding the temperature
+		temp=adc_result1*4.88;   // finding the temperature
+		temp=temp/10.0;
 		itoa(temp,buffer,10);
 		UART_VidSendString((u8*)"Temp=");   //display temperature
 		UART_VidSendString(buffer);
-		UART_VidSendString((u8*)"C"); 		
+		UART_VidSendString((u8*)"C\r\n"); 		
 		_delay_ms(1000);
 }
 // u8 *x;
@@ -54,7 +55,7 @@ int main(void)
 
 	
 	UART_VidInt();	
-		 
+	ADC_VidInit();	 
     UART_VidSendString((u8*)"HI HOW ARE U ");
     while (1) 
     {
@@ -64,8 +65,8 @@ int main(void)
 
 
 	  /* MQ-135 operating */
-	  //GAS_VidReadValue();
-	 // _delay_ms(2000);
+	//   GAS_VidReadValue();
+	//  _delay_ms(2000);
 
 	 TEMP_VidReadValue();
 	_delay_ms(2000);
