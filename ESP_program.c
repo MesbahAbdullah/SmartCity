@@ -26,8 +26,8 @@ void ESP8266_VidInit()
     Local_u8Result=0;
     while (Local_u8Result==0)
     {
-         UART_VidSendString((u8 *)"AT+CWMODE=1\r\n");
-         Local_u8Result=ESP8266_u8ValidateCmd();
+        UART_VidSendString((u8 *)"AT+CWMODE=1\r\n");
+        Local_u8Result=ESP8266_u8ValidateCmd();
     }
 
 }
