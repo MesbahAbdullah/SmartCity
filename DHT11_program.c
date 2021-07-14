@@ -9,13 +9,10 @@
 #include "GPIO_interface.h"
 #include "DHT11_interface.h"
 #include "UART_interface.h"
-#include <util/delay.h>//it has delay function
+#include <util/delay.h>
 #define DHT11_PIN 4
-//#include <avr/io.h>
-//#include <stdlib.h>
-//#include <stdio.h>
-//#include "lcd.h"
-uint8_t c=0,I_RH,D_RH,I_Temp,D_Temp,CheckSum;
+
+u8 c=0,I_RH,D_RH,I_Temp,D_Temp,CheckSum;
 
 void Request()				/* Microcontroller send start pulse/request */
 {
@@ -28,12 +25,12 @@ void Request()				/* Microcontroller send start pulse/request */
 void Response()				/* receive response from DHT11 */
 {
 	DDRD &= ~(1<<DHT11_PIN);
-	while(PIND & (1<<DHT11_PIN));
+	while( PIND & (1<<DHT11_PIN    ));
 	while((PIND & (1<<DHT11_PIN))==0);
-	while(PIND & (1<<DHT11_PIN));
+	while( PIND & (1<<DHT11_PIN    ));
 }
 
-uint8_t Receive_data()			/* receive data */
+u8 Receive_data()			/* receive data */
 {	
 	for (int q=0; q<8; q++)
 	{
@@ -51,14 +48,8 @@ uint8_t Receive_data()			/* receive data */
 void DHT11_VidStart(void)
 {	
 	char data[5];
-	//lcdinit();			/* Initialize LCD */
-	//lcd_clear();			/* Clear LCD */
-	//lcd_gotoxy(0,0);		/* Enter column and row position */
 	UART_VidSendString("Humidity =");
-	//lcd_gotoxy(0,1);
 	UART_VidSendString("Temp = ");
-	
-    
 	
 		Request();		/* send start pulse */
 		Response();		/* receive response */
@@ -72,14 +63,12 @@ void DHT11_VidStart(void)
 
 		if ((I_RH + D_RH + I_Temp + D_Temp) != CheckSum)
 		{
-			//lcd_gotoxy(0,0);
 			UART_VidSendString("Error");
 		}
 		
 		else
 		{	
 			itoa(I_RH,data,10);
-			//lcd_gotoxy(11,0);
 			UART_VidSendString(data);
 			UART_VidSendString(".");
 			
@@ -88,13 +77,11 @@ void DHT11_VidStart(void)
 			UART_VidSendString("%");
 
 			itoa(I_Temp,data,10);
-			//lcd_gotoxy(6,1);
 			UART_VidSendString(data);
 			UART_VidSendString(".");
 			
 			itoa(D_Temp,data,10);
 			UART_VidSendString(data);
-			//lcddata(0xDF);
 			UART_VidSendString("C ");
 			
 			itoa(CheckSum,data,10);
@@ -102,6 +89,5 @@ void DHT11_VidStart(void)
 			UART_VidSendString(" ");
 		}
 				
-	_delay_ms(10);
-	
+	_delay_ms(10);	
 }

@@ -12,20 +12,19 @@
 #include "UART_interface.h"
 #include "DHT11_interface.h"
 #include "ESP_interface.h"
-#include "lcd.h"
 #include "ADC_interface.h"
 #include <util/delay.h>//it has delay function
-/***********************************temperature sensor********************************************/
+/***********************************temperature sensor variables**********************************/
     #define TEMP_PIN                 1
 	u16 adc_result1;
     s16 temp;
     s16 far;
     u8 buffer[10];           
 
-/*This function is to read an analogue value from temp sensor lm-35 and send the data using uart */
+/*This function is to read an analogue value from temp sensor lm-35 and send the data using UART */
 void TEMP_VidReadValue()
 {
-	adc_result1 = ADC_u16ReadChannel(TEMP_PIN);      // read adc value 		
+	adc_result1 = ADC_u16ReadChannel(TEMP_PIN);      // read ADC value 		
 	temp=adc_result1*4.88;   // finding the temperature
 	temp=temp/10.0;
 	itoa(temp,buffer,10);
@@ -47,14 +46,20 @@ void GAS_VidReadValue()
     UART_VidSendString((u8*)tempBuffer);
 }
 
-/*This function is for reading the value from PIR sensor*/
+/******This function is to read an digital value from PIR sensor and send the data using uart*****/
 void PIR_VidReadValue()
 {
-    u8 localVariable=GPIO_u8GetPinValue(GPIO_PORTB,PIN0);	
-    if(localVariable==1)
+    //u8 localVariable=GPIO_u8GetPinValue(GPIO_PORTB,PIN0);	//test that line for ma
+    if(GPIO_u8GetPinValue(GPIO_PORTB,PIN0)==1)
         UART_VidSendString((u8*)"there is someone moving around");
     else
         UART_VidSendString((u8*)"No one is moving");
+}
+
+/******This function is to read an digital value from IR sensor and send the data using uart*****/
+void IR_VidReadValue()
+{
+	
 }
 int main(void)
 {
@@ -66,13 +71,12 @@ int main(void)
     while (1) 
     {
 	 /* DHT11 operating */	
-	 //DHT11_VidStart();    
-	 //_delay_ms(2000); //to call the DHT11_VidStart() again  
-
+	 DHT11_VidStart();    
+	 _delay_ms(2000); //to call the DHT11_VidStart() again  
 
 	 /* MQ-135 operating */
-	 //   GAS_VidReadValue();
-	 //  _delay_ms(2000);
+	   GAS_VidReadValue();
+	  _delay_ms(2000);
      /*lm-35 operating */
 	 TEMP_VidReadValue();
      _delay_ms(2000);
