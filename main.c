@@ -13,6 +13,8 @@
 #include "DHT11_interface.h"
 #include "ESP_interface.h"
 #include "ADC_interface.h"
+#include "WDT_interface.h"
+
 #include <util/delay.h>//it has delay function
 /***********************************temperature sensor variables**********************************/
     #define TEMP_PIN                 1
@@ -65,7 +67,7 @@ int main(void)
 {
 
     GPIO_VidSetPinDirection(GPIO_PORTB,PIN0,INPUT);  //This pin is for operating the PIR sensor
-	UART_VidInt();	
+	UART_VidInit();	
 	ADC_VidInit();	 
     UART_VidSendString((u8*)"HI HOW ARE U ");
     while (1) 

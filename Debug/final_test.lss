@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  000001d4  00000000  00000000  000034e4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000005b5  00000000  00000000  000036b8  2**0
+ 10 .debug_str    000005b6  00000000  00000000  000036b8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000682  00000000  00000000  00003c6d  2**0
+ 11 .debug_loc    00000682  00000000  00000000  00003c6e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000c8  00000000  00000000  000042ef  2**0
+ 12 .debug_ranges 000000c8  00000000  00000000  000042f0  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -924,8 +924,8 @@ int main(void)
  58c:	60 e0       	ldi	r22, 0x00	; 0
  58e:	81 e0       	ldi	r24, 0x01	; 1
  590:	0e 94 43 01 	call	0x286	; 0x286 <GPIO_VidSetPinDirection>
-	UART_VidInt();	
- 594:	0e 94 ff 02 	call	0x5fe	; 0x5fe <UART_VidInt>
+	UART_VidInit();	
+ 594:	0e 94 ff 02 	call	0x5fe	; 0x5fe <UART_VidInit>
 	ADC_VidInit();	 
  598:	0e 94 49 00 	call	0x92	; 0x92 <ADC_VidInit>
     UART_VidSendString((u8*)"HI HOW ARE U ");
@@ -989,7 +989,7 @@ int main(void)
  5fa:	00 00       	nop
  5fc:	d3 cf       	rjmp	.-90     	; 0x5a4 <main+0x1a>
 
-000005fe <UART_VidInt>:
+000005fe <UART_VidInit>:
 {
     /* Wait for data to be received */
     while(GET_BIT(UART_UCSRA , 7) == 0);
@@ -1024,8 +1024,9 @@ void UART_VidSendString( u8 * Copy_ptrString ){
 	u8 LOC_u8Iterator = 0 ;
  622:	c0 e0       	ldi	r28, 0x00	; 0
 
-	while ( Copy_ptrString[ LOC_u8Iterator ] != '\0' ){
+	while ( Copy_ptrString[ LOC_u8Iterator ] != '\0' )
  624:	03 c0       	rjmp	.+6      	; 0x62c <UART_VidSendString+0x12>
+    {
 
 		UART_VidSentByte( Copy_ptrString[ LOC_u8Iterator ] );
  626:	0e 94 09 03 	call	0x612	; 0x612 <UART_VidSentByte>
@@ -1036,16 +1037,16 @@ void UART_VidSendString( u8 * Copy_ptrString ){
 
 	u8 LOC_u8Iterator = 0 ;
 
-	while ( Copy_ptrString[ LOC_u8Iterator ] != '\0' ){
+	while ( Copy_ptrString[ LOC_u8Iterator ] != '\0' )
  62c:	f8 01       	movw	r30, r16
  62e:	ec 0f       	add	r30, r28
  630:	f1 1d       	adc	r31, r1
  632:	80 81       	ld	r24, Z
  634:	81 11       	cpse	r24, r1
  636:	f7 cf       	rjmp	.-18     	; 0x626 <UART_VidSendString+0xc>
+
 		UART_VidSentByte( Copy_ptrString[ LOC_u8Iterator ] );
 		LOC_u8Iterator++ ;
-
 	}
 
 }

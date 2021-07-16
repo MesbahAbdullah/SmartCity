@@ -16,7 +16,7 @@
 #define BAUD_PRESCALE (((F_CPU / (USART_BAUDRATE * 8UL))) - 1)
 
 u8 Copy_DataString[20] ={0};
-void UART_VidInt()
+void UART_VidInit()
 {
     UCSRA = (1<<U2X);
     UCSRB = (1<<RXEN) | (1<<TXEN);

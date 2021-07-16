@@ -148,6 +148,22 @@ Discarded input sections
                 0x00000000       0x3e UART_program.o
  .bss.Copy_DataString
                 0x00000000       0x14 UART_program.o
+ .text          0x00000000        0x0 WDT_program.o
+ .data          0x00000000        0x0 WDT_program.o
+ .bss           0x00000000        0x0 WDT_program.o
+ .text.WDT_VidON
+                0x00000000       0x1a WDT_program.o
+ .text.WDT_VidOFF
+                0x00000000        0x8 WDT_program.o
+ .debug_info    0x00000000       0x99 WDT_program.o
+ .debug_abbrev  0x00000000       0x51 WDT_program.o
+ .debug_aranges
+                0x00000000       0x28 WDT_program.o
+ .debug_ranges  0x00000000       0x18 WDT_program.o
+ .debug_line    0x00000000       0xd7 WDT_program.o
+ .debug_str     0x00000000      0x191 WDT_program.o
+ .comment       0x00000000       0x31 WDT_program.o
+ .debug_frame   0x00000000       0x34 WDT_program.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libm.a(divsf3.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libm.a(divsf3.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libm.a(divsf3.o)
@@ -273,6 +289,7 @@ LOAD GPIO_program.o
 LOAD lcd.o
 LOAD main.o
 LOAD UART_program.o
+LOAD WDT_program.o
 START GROUP
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libm.a
 END GROUP
@@ -501,9 +518,9 @@ END GROUP
                 0x0000056a                PIR_VidReadValue
  .text.main     0x0000058a       0x74 main.o
                 0x0000058a                main
- .text.UART_VidInt
+ .text.UART_VidInit
                 0x000005fe       0x14 UART_program.o
-                0x000005fe                UART_VidInt
+                0x000005fe                UART_VidInit
  .text.UART_VidSentByte
                 0x00000612        0x8 UART_program.o
                 0x00000612                UART_VidSentByte
@@ -765,7 +782,7 @@ END GROUP
  .debug_frame   0x000000ec       0x64 main.o
  .debug_frame   0x00000150       0x84 UART_program.o
 
-.debug_str      0x00000000      0x5b5
+.debug_str      0x00000000      0x5b6
  *(.debug_str)
  .debug_str     0x00000000      0x196 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega32/avr5/crtatmega32.o
  .debug_str     0x00000196      0x199 ADC_program.o
@@ -774,10 +791,10 @@ END GROUP
                                 0x27a (size before relaxing)
  .debug_str     0x00000421       0x8e GPIO_program.o
                                 0x1e2 (size before relaxing)
- .debug_str     0x000004af       0x80 main.o
-                                0x2d3 (size before relaxing)
- .debug_str     0x0000052f       0x86 UART_program.o
-                                0x234 (size before relaxing)
+ .debug_str     0x000004af       0x81 main.o
+                                0x2d4 (size before relaxing)
+ .debug_str     0x00000530       0x86 UART_program.o
+                                0x235 (size before relaxing)
 
 .debug_loc      0x00000000      0x682
  *(.debug_loc)

@@ -8,7 +8,7 @@
 
 #define USART_BAUDRATE 115200
 
-void UART_VidInt();
+void UART_VidInit();
 void UART_VidSentByte(u8 Copy_u8Data);
 u8   UART_VidReceveByte();
 void UART_VidSendString( u8 * Copy_ptrString );

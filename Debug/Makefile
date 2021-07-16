@@ -43,7 +43,8 @@ C_SRCS +=  \
 ../GPIO_program.c \
 ../lcd.c \
 ../main.c \
-../UART_program.c
+../UART_program.c \
+../WDT_program.c
 
 
 PREPROCESSING_SRCS += 
@@ -59,7 +60,8 @@ ESP_program.o \
 GPIO_program.o \
 lcd.o \
 main.o \
-UART_program.o
+UART_program.o \
+WDT_program.o
 
 OBJS_AS_ARGS +=  \
 ADC_program.o \
@@ -68,7 +70,8 @@ ESP_program.o \
 GPIO_program.o \
 lcd.o \
 main.o \
-UART_program.o
+UART_program.o \
+WDT_program.o
 
 C_DEPS +=  \
 ADC_program.d \
@@ -77,7 +80,8 @@ ESP_program.d \
 GPIO_program.d \
 lcd.d \
 main.d \
-UART_program.d
+UART_program.d \
+WDT_program.d
 
 C_DEPS_AS_ARGS +=  \
 ADC_program.d \
@@ -86,7 +90,8 @@ ESP_program.d \
 GPIO_program.d \
 lcd.d \
 main.d \
-UART_program.d
+UART_program.d \
+WDT_program.d
 
 OUTPUT_FILE_PATH +=final_test.elf
 
@@ -145,6 +150,13 @@ LINKER_SCRIPT_DEP+=
 	
 
 ./UART_program.o: .././UART_program.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./WDT_program.o: .././WDT_program.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"path": "..\\..\\.."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"std_types.h": "c",
+			"esp_interface.h": "c",
+			"lcd.h": "c",
+			"adc_interface.h": "c",
+			"wdt_private.h": "c",
+			"wdt_config.h": "c",
+			"wdt_interface.h": "c"
+		},
+		"cSpell.words": [
+			"abdullah"
+		]
+	}
+}
