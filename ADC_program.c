@@ -1,5 +1,5 @@
 /******************************************************************************
- * source code from  Mohamed Tarek
+ * helpful rescources : Mohamed Tarek
  *******************************************************************************/
 
 
@@ -10,7 +10,7 @@
 
 void ADC_VidInit(void)
 {
-    ADMUX = (1<<REFS0);	
+    ADMUX = (1<<REFS0);
 	ADCSRA = (1<<ADEN) | (1<<ADPS1) | (1<<ADPS0);
 }
 
