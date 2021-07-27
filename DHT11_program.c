@@ -4,6 +4,7 @@
  * helpful resources : http://www.electronicwings.com
  * https://www.mouser.com/datasheet/2/758/DHT11-Technical-Data-Sheet-Translated-Version-1143054.pdf
  */ 
+#include <util/delay.h>
 #include "STD_TYPES.h"
 #include "BIT_MATH.h"
 #include "GPIO_private.h"
@@ -12,7 +13,6 @@
 #include "UART_interface.h"
 #include "WDT_interface.h"
 
-#include <util/delay.h>
 #define DHT11_PIN 4
 
 u8 c=0,I_RH,D_RH,I_Temp,D_Temp,CheckSum;

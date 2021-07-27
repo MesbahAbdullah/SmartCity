@@ -4,10 +4,9 @@
 /* Version     : V01                                     */
 /*********************************************************/
 #include "BIT_MATH.h"
-
+#include <avr/io.h>
 #include "WDT_config.h"
 #include "WDT_interface.h"
-#include <avr/io.h>
 
 
 void WDT_VidON(void)

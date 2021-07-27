@@ -1,6 +1,4 @@
-UART_program.d UART_program.o: .././UART_program.c .././STD_TYPES.h \
- .././BIT_MATH.h .././UART_private.h .././UART_interface.h \
- .././GPIO_interface.h \
+UART_program.d UART_program.o: .././UART_program.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
@@ -11,17 +9,9 @@ UART_program.d UART_program.o: .././UART_program.c .././STD_TYPES.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\common.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\version.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h
-
-.././STD_TYPES.h:
-
-.././BIT_MATH.h:
-
-.././UART_private.h:
-
-.././UART_interface.h:
-
-.././GPIO_interface.h:
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
+ .././STD_TYPES.h .././BIT_MATH.h .././UART_private.h \
+ .././UART_interface.h .././GPIO_interface.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -44,3 +34,13 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h:
+
+.././STD_TYPES.h:
+
+.././BIT_MATH.h:
+
+.././UART_private.h:
+
+.././UART_interface.h:
+
+.././GPIO_interface.h:

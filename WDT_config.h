@@ -19,7 +19,7 @@
 /*   2.1s   -->2
 /***************************/
 
-#define      WDT_TIME             2
+#define      WDT_TIME             1
 
 
 
