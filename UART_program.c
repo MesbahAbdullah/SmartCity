@@ -3,13 +3,13 @@
 /* Date        : 25 JAN 2021                             */
 /* Version     : V01                                     */
 /*********************************************************/
+#include <avr/io.h>
 
 #include "STD_TYPES.h"
 #include "BIT_MATH.h"
 #include "UART_private.h"
 #include "UART_interface.h"
 #include "GPIO_interface.h"
-#include <avr/io.h>
 
 #define  F_CPU 16000000UL
 
