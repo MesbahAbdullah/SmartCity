@@ -7,6 +7,7 @@
 //#include <avr/io.h>
 #define  F_CPU 16000000UL
 #include "STD_TYPES.h"
+#include <util/delay.h>
 #include "BIT_MATH.h"
 #include "GPIO_interface.h"
 #include "UART_interface.h"
@@ -14,8 +15,7 @@
 #include "ESP_interface.h"
 #include "ADC_interface.h"
 #include "WDT_interface.h"
-
-#include <util/delay.h>//it has delay function
+//it has delay function
 /***********************************temperature sensor variables**********************************/
     #define TEMP_PIN                 1
 	u16 adc_result1;
@@ -69,7 +69,9 @@ int main(void)
     GPIO_VidSetPinDirection(GPIO_PORTB,PIN0,INPUT);  //This pin is for operating the PIR sensor
 	UART_VidInit();	
 	ADC_VidInit();	 
-    UART_VidSendString((u8*)"HI HOW ARE U ");
+    ESP8266_VidInit();
+    ESP8266_VidConnectToWiFi("ssid","pass");
+    
     while (1) 
     {
 	 /* DHT11 operating */	

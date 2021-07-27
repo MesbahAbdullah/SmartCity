@@ -1,7 +1,8 @@
 /*
  * ATmega16_DHT11_Project_File.c
- *
- * source code from http://www.electronicwings.com
+ * Author      : Mesbah Abdullah                         
+ * helpful resources : http://www.electronicwings.com
+ * https://www.mouser.com/datasheet/2/758/DHT11-Technical-Data-Sheet-Translated-Version-1143054.pdf
  */ 
 #include "STD_TYPES.h"
 #include "BIT_MATH.h"
@@ -9,6 +10,8 @@
 #include "GPIO_interface.h"
 #include "DHT11_interface.h"
 #include "UART_interface.h"
+#include "WDT_interface.h"
+
 #include <util/delay.h>
 #define DHT11_PIN 4
 
@@ -18,16 +21,18 @@ void Request()				/* Microcontroller send start pulse/request */
 {
 	DDRD |= (1<<DHT11_PIN);
 	PORTD &= ~(1<<DHT11_PIN);	/* set to low pin */
-	_delay_ms(20);			/* wait for 20ms */
+	_delay_ms(18);			/* wait for 20ms */
 	PORTD |= (1<<DHT11_PIN);	/* set to high pin */
 }
 
 void Response()				/* receive response from DHT11 */
 {
+	WDT_VidON();
 	DDRD &= ~(1<<DHT11_PIN);
 	while( PIND & (1<<DHT11_PIN    ));
 	while((PIND & (1<<DHT11_PIN))==0);
 	while( PIND & (1<<DHT11_PIN    ));
+	WDT_VidOFF();
 }
 
 u8 Receive_data()			/* receive data */
@@ -37,7 +42,7 @@ u8 Receive_data()			/* receive data */
 		while((PIND & (1<<DHT11_PIN)) == 0);  /* check received bit 0 or 1 */
 		_delay_us(30);
 		if(PIND & (1<<DHT11_PIN))/* if high pulse is greater than 30ms */
-		c = (c<<1)|(0x01);	/* then its logic HIGH */
+		  c = (c<<1)|(0x01);	/* then its logic HIGH */
 		else			/* otherwise its logic LOW */
 		c = (c<<1);
 		while(PIND & (1<<DHT11_PIN));

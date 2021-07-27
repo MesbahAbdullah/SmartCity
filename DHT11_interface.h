@@ -1,7 +1,8 @@
 /*
  * ATmega16_DHT11_Project_File.c
- *
- * source code from http://www.electronicwings.com
+ * Author      : Mesbah Abdullah                         
+ * helpful resources : http://www.electronicwings.com
+ * https://www.mouser.com/datasheet/2/758/DHT11-Technical-Data-Sheet-Translated-Version-1143054.pdf
  */ 
 
 #ifndef DHT11_INTERFACE_H
